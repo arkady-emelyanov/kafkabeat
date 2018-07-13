@@ -131,7 +131,7 @@ Plain codec (Elastic output):
 In case of json, it's quite handy to disable template upload, by providing top-level
 configuration option: `setup.template.enabled: false` and manually manage mappings.
 
-## Getting Started with Kafkabeat
+## Building, Running and Packaging Kafkabeat
 
 ### Requirements
 
