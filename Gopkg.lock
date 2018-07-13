@@ -262,8 +262,8 @@
     "json",
     "yaml"
   ]
-  revision = "9c66f5c432b1d25bdb449a1e588d58b5d0cd7268"
-  version = "v0.6.0"
+  revision = "581f7b1fe9d84f4c18ef0694d6e0eb944a925dae"
+  version = "v0.6.1"
 
 [[projects]]
   branch = "master"
@@ -546,6 +546,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "a1a7ef0211094abd22b74d1fc3a6f5b6972f5ee99e7f912977826f1e39062705"
+  inputs-digest = "16e46a4f389fb5205ccc2ef70bc64b6bc14ee770d3db46b0fba7026e9438fbee"
   solver-name = "gps-cdcl"
   solver-version = 1

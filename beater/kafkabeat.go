@@ -41,6 +41,7 @@ func New(b *beat.Beat, cfg *common.Config) (beat.Beater, error) {
 	kConfig.Group.Return.Notifications = true
 	kConfig.Consumer.Return.Errors = true
 	kConfig.ClientID = bConfig.ClientID
+	kConfig.Consumer.MaxWaitTime = time.Millisecond * 500
 
 	// initial offset handling
 	switch bConfig.Offset {
