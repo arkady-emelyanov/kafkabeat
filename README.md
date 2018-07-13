@@ -47,7 +47,7 @@ kafkabeat:
   group: "kafkabeat"
 
   # The initial offset to use if no offset was previously committed.
-	# Should be "newest" or "oldest". Defaults to "newest".
+  # Should be "newest" or "oldest". Defaults to "newest".
   offset: "newest"
 
   # Codec to use. Can be either "plain" or "json".
