@@ -1,10 +1,5 @@
 # Kafkabeat
 
-Welcome to Kafkabeat.
-
-
-## Overview
-
 Kafkabeat is an [Elastic Beat](https://www.elastic.co/products/beats) that read events from Kafka topics and 
 forward them to any [supported output](https://www.elastic.co/guide/en/beats/filebeat/6.3/configuring-output.html).
 
