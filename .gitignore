@@ -1,6 +1,6 @@
 /.idea
 /build
-
+/logs
 .DS_Store
 /kafkabeat
 /kafkabeat.test
