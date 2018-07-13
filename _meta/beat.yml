@@ -1,0 +1,32 @@
+################### Kafkabeat Configuration Example #########################
+
+############################# Kafkabeat ######################################
+kafkabeat:
+  # Brokers to connect to.
+  # Defaults to ["localhost:9092"].
+  brokers: ["localhost:9092"]
+
+  # Topics to fetch data.
+  # Defaults to ["watch"].
+  topics: ["watch"]
+
+  # Consumer ClientID. Defaults to beat.
+  client_id: "beat"
+
+  # Consumer group.
+  group: "kafkabeat"
+
+  # The initial offset to use if no offset was previously committed.
+	# Should be "newest" or "oldest". Defaults to "newest".
+  offset: "newest"
+
+  # Codec to use. Can be either "plain" or "json".
+  # @see README.md for detailed explanation.
+  # Defaults to "json".
+  codec: "json"
+
+  # Event publish mode: "default", "send" or "drop_if_full".
+  # Defaults to "default"
+  # @see https://github.com/elastic/beats/blob/v6.3.1/libbeat/beat/pipeline.go#L119
+  # for detailed explanation.
+  #publish_mode: "default"

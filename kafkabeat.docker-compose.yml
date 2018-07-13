@@ -1,0 +1,23 @@
+################### Kafkabeat Configuration Example #########################
+
+############################# Kafkabeat ######################################
+kafkabeat:
+  brokers: ["localhost:9092"]
+  topics: ["watch"]
+  client_id: "beat"
+  group: "kafkabeat"
+  offset: "newest"
+  codec: "json"
+
+  # Event publish mode: "default", "send" or "drop_if_full".
+  # Defaults to "default"
+  # @see https://github.com/elastic/beats/blob/v6.3.1/libbeat/beat/pipeline.go#L119
+  # for detailed explanation.
+  #publish_mode: "default"
+
+output.elasticsearch:
+  enabled: true
+  hosts: ["localhost:9200"]
+
+# Set to false to disable template loading.
+setup.template.enabled: false
