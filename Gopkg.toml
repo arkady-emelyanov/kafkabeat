@@ -4,7 +4,7 @@
 
 [[constraint]]
   name = "github.com/elastic/beats"
-  version = "6.3.1"
+  version = "6.3.2"
 
 [[constraint]]
   name = "github.com/bsm/sarama-cluster"
