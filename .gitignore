@@ -1,7 +1,9 @@
 /.idea
 /build
 /logs
-.DS_Store
 /kafkabeat
 /kafkabeat.test
-*.pyc
+/kafkabeat-linux-amd64
+/kafkabeat-linux-amd64.sha1
+/kafkabeat-darwin-amd64
+/kafkabeat-darwin-amd64.sha1

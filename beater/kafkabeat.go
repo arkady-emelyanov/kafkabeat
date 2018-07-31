@@ -126,12 +126,11 @@ func (bt *Kafkabeat) Run(b *beat.Beat) error {
 			bt.logger.Errorf("error: %#v", err)
 
 		case notify := <-bt.consumer.Notifications():
-			bt.logger.Info("received notification: ", notify)
+			bt.logger.Debugf("received notification: %#v", notify)
 
 		case msg := <-bt.consumer.Messages():
-			bt.logger.Debug("received message: ", msg)
-			event := bt.codec(msg)
-			if event != nil {
+			bt.logger.Debugf("received message: %#v", msg)
+			if event := bt.codec(msg); event != nil {
 				bt.pipeline.Publish(*event)
 			}
 			bt.consumer.MarkOffset(msg, "")
