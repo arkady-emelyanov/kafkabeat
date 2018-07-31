@@ -18,16 +18,8 @@ env:
   - TARGETS="testsuite"
   - TARGETS="test-beat"
 
-  global:
-  - GOX_FLAGS="-arch amd64"
-
-addons:
-  apt:
-    packages:
-    - python-virtualenv
-    - openssl
-
 install:
+- pip install virtualenv
 - pip install urllib3[secure]
 - go get -u github.com/kardianos/govendor
 
