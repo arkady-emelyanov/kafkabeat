@@ -15,6 +15,9 @@ Autodiscover providers work by watching for events on the system and translating
 events with a common format. When you configure the provider, you can use fields from the autodiscover event to set
 conditions that, when met, launch specific configurations.
 
+On start, {beatname_uc} will scan existing containers and launch the proper configs for them. Then it will watch for new
+start/stop events. This ensures you don't need to worry about state, but only define your desired configs.
+
 [float]
 ===== Docker
 
@@ -156,6 +159,15 @@ For example:
 
 The configuration of templates and conditions is similar to that of the Docker provider. Configuration templates can
 contain variables from the autodiscover event. They can be accessed under data namespace.
+
+The `kubernetes` autodiscover provider has the following configuration settings:
+
+`in_cluster`:: (Optional) Use in cluster settings for Kubernetes client, `true`
+  by default.
+`host`:: (Optional) In case `in_cluster` is false, use this host to connect to
+  Kubernetes API.
+`kube_config`:: (Optional) Use given config file as configuration for Kubernetes
+  client.
 
 include::../../{beatname_lc}/docs/autodiscover-kubernetes-config.asciidoc[]
 

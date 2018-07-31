@@ -20,3 +20,7 @@ before-build:
 # Collects all dependencies and then calls update
 .PHONY: collect
 collect:
+
+.PHONY: test-beat
+test-beat:
+	go test ./...

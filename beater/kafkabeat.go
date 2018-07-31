@@ -1,14 +1,15 @@
 package beater
 
 import (
-	"fmt"
 	"encoding/json"
+	"fmt"
 	"time"
 
 	"github.com/arkady-emelyanov/kafkabeat/config"
 
 	"github.com/Shopify/sarama"
 	"github.com/bsm/sarama-cluster"
+
 	"github.com/elastic/beats/libbeat/beat"
 	"github.com/elastic/beats/libbeat/common"
 	"github.com/elastic/beats/libbeat/logp"
@@ -125,12 +126,11 @@ func (bt *Kafkabeat) Run(b *beat.Beat) error {
 			bt.logger.Errorf("error: %#v", err)
 
 		case notify := <-bt.consumer.Notifications():
-			bt.logger.Info("received notification: ", notify)
+			bt.logger.Debugf("received notification: %#v", notify)
 
 		case msg := <-bt.consumer.Messages():
-			bt.logger.Debug("received message: ", msg)
-			event := bt.codec(msg)
-			if event != nil {
+			bt.logger.Debugf("received message: %#v", msg)
+			if event := bt.codec(msg); event != nil {
 				bt.pipeline.Publish(*event)
 			}
 			bt.consumer.MarkOffset(msg, "")
@@ -171,7 +171,7 @@ func decodeJson(msg *sarama.ConsumerMessage) *beat.Event {
 
 	return &beat.Event{
 		Timestamp: ts,
-		Fields: fields,
+		Fields:    fields,
 	}
 }
 
@@ -187,6 +187,6 @@ func decodePlain(msg *sarama.ConsumerMessage) *beat.Event {
 
 	return &beat.Event{
 		Timestamp: ts,
-		Fields: fields,
+		Fields:    fields,
 	}
 }

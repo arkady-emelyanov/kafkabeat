@@ -1,9 +1,0 @@
-- key: kafkabeat
-  title: kafkabeat
-  description:
-  fields:
-    - name: message
-      type: string
-      required: true
-      description: >
-        Kafka message
