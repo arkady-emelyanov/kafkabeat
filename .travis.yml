@@ -30,7 +30,7 @@ before_deploy:
 - GOOS=linux GOARCH=amd64 go build -o kafkabeat-linux-amd64
 - GOOS=darwin GOARCH=amd64 go build -o kafkabeat-darwin-amd64
 - openssl sha1 kafkabeat-linux-amd64 | awk '{print $2}' > kafkabeat-linux-amd64.sha1
-- openssl sha1 kafkabeat-dawrin-amd64 | awk '{print $2}' > kafkabeat-dawrin-amd64.sha1
+- openssl sha1 kafkabeat-darwin-amd64 | awk '{print $2}' > kafkabeat-darwin-amd64.sha1
 
 deploy:
   provider: releases
