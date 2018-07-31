@@ -1,14 +1,15 @@
 package beater
 
 import (
-	"fmt"
 	"encoding/json"
+	"fmt"
 	"time"
 
 	"github.com/arkady-emelyanov/kafkabeat/config"
 
 	"github.com/Shopify/sarama"
 	"github.com/bsm/sarama-cluster"
+
 	"github.com/elastic/beats/libbeat/beat"
 	"github.com/elastic/beats/libbeat/common"
 	"github.com/elastic/beats/libbeat/logp"
@@ -171,7 +172,7 @@ func decodeJson(msg *sarama.ConsumerMessage) *beat.Event {
 
 	return &beat.Event{
 		Timestamp: ts,
-		Fields: fields,
+		Fields:    fields,
 	}
 }
 
@@ -187,6 +188,6 @@ func decodePlain(msg *sarama.ConsumerMessage) *beat.Event {
 
 	return &beat.Event{
 		Timestamp: ts,
-		Fields: fields,
+		Fields:    fields,
 	}
 }
