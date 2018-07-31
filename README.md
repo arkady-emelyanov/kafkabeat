@@ -1,5 +1,7 @@
 # Kafkabeat
 
+[![Build Status](https://travis-ci.org/arkady-emelyanov/kafkabeat.svg?branch=master)](https://travis-ci.org/arkady-emelyanov/kafkabeat)
+
 Kafkabeat is an [Elastic Beat](https://www.elastic.co/products/beats) that read events from Kafka topics and 
 forward them to any [supported output](https://www.elastic.co/guide/en/beats/filebeat/6.3/configuring-output.html).
 
@@ -64,12 +66,11 @@ kafkabeat:
 
 ### Timestamp
 
-For plain codec, timestamp field will be set either as provided by Kafka message (requires Kafka 0.10+), 
+For plain codec, timestamp field will be set either as provided by Kafka message (requires Kafka 0.10+),
 or as current time.
 
 For json codec, before fallback to Kafka message timestamp, top-level field "@timestamp" 
-with expected layout `"2006-01-02T15:04:05.000Z"` will be analyzed. 
-
+with expected layout `"2006-01-02T15:04:05.000Z"` will be analyzed.
 
 ### Examples
 
@@ -135,7 +136,7 @@ configuration option: `setup.template.enabled: false` and manually manage mappin
 
 ### Requirements
 
-* [Golang](https://golang.org/dl/) 1.7
+* [Golang](https://golang.org/dl/) 1.7+
 
 ### Build
 
@@ -168,13 +169,6 @@ make update
 ```
 
 ### Cleanup
-
-To clean  Kafkabeat source code, run the following commands:
-
-```
-make fmt
-make simplify
-```
 
 To clean up the build directory and generated artifacts, run:
 
