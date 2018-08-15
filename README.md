@@ -62,6 +62,12 @@ kafkabeat:
   # @see https://github.com/elastic/beats/blob/v6.3.1/libbeat/beat/pipeline.go#L119
   # for detailed explanation.
   #publish_mode: "default"
+
+  # Channel buffer size.
+  # Defaults to 256
+  # @see https://github.com/Shopify/sarama/blob/v1.17.0/config.go#L262
+  # for detailed explanation
+  #channel_buffer_size: 256
 ```
 
 ### Timestamp

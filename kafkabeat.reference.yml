@@ -31,6 +31,12 @@ kafkabeat:
   # for detailed explanation.
   #publish_mode: "default"
 
+  # Channel buffer size.
+  # Defaults to 256
+  # @see https://github.com/Shopify/sarama/blob/v1.17.0/config.go#L262
+  # for detailed explanation
+  #channel_buffer_size: 256
+
 #================================ General ======================================
 
 # The name of the shipper that publishes the network data. It can be used to group

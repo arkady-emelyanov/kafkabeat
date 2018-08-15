@@ -8,12 +8,7 @@ kafkabeat:
   group: "kafkabeat"
   offset: "newest"
   codec: "json"
-
-  # Event publish mode: "default", "send" or "drop_if_full".
-  # Defaults to "default"
-  # @see https://github.com/elastic/beats/blob/v6.3.1/libbeat/beat/pipeline.go#L119
-  # for detailed explanation.
-  #publish_mode: "default"
+  channel_buffer_size: 1024
 
 output.elasticsearch:
   enabled: true

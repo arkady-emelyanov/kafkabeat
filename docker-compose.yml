@@ -6,7 +6,8 @@ services:
       - 2181:2181
 
   kafka:
-    image: wurstmeister/kafka
+    # currently, Kafka 2.0.0 is not supported
+    image: wurstmeister/kafka:1.1.0
     ports:
       - 9092:9092
     environment:
