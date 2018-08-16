@@ -13,7 +13,7 @@ import (
 	"github.com/elastic/beats/libbeat/beat"
 	"github.com/elastic/beats/libbeat/common"
 	"github.com/elastic/beats/libbeat/logp"
-	)
+)
 
 type msgDecodeFn func(msg *sarama.ConsumerMessage) *beat.Event
 
