@@ -3,6 +3,8 @@
 
 package config
 
+import "runtime"
+
 type Config struct {
 	Brokers           []string `config:"brokers"`
 	Topics            []string `config:"topics"`
@@ -12,6 +14,7 @@ type Config struct {
 	Codec             string   `config:"codec"`
 	PublishMode       string   `config:"publish_mode"`
 	ChannelBufferSize int      `config:"channel_buffer_size"`
+	ChannelWorkers    int      `config:"channel_workers"`
 }
 
 var DefaultConfig = Config{
@@ -23,4 +26,5 @@ var DefaultConfig = Config{
 	Codec:             "json",
 	PublishMode:       "default",
 	ChannelBufferSize: 256,
+	ChannelWorkers:    runtime.NumCPU(),
 }

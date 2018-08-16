@@ -13,7 +13,7 @@ import (
 	"github.com/elastic/beats/libbeat/beat"
 	"github.com/elastic/beats/libbeat/common"
 	"github.com/elastic/beats/libbeat/logp"
-)
+	)
 
 type msgDecodeFn func(msg *sarama.ConsumerMessage) *beat.Event
 
@@ -39,11 +39,10 @@ func New(b *beat.Beat, cfg *common.Config) (beat.Beater, error) {
 	}
 
 	kConfig := cluster.NewConfig()
-	kConfig.Group.Return.Notifications = true
-	kConfig.Consumer.Return.Errors = true
 	kConfig.ClientID = bConfig.ClientID
-	kConfig.Consumer.MaxWaitTime = time.Millisecond * 500
 	kConfig.ChannelBufferSize = bConfig.ChannelBufferSize
+	kConfig.Consumer.MaxWaitTime = time.Millisecond * 500
+	kConfig.Consumer.Return.Errors = true
 
 	// initial offset handling
 	switch bConfig.Offset {
@@ -77,6 +76,10 @@ func New(b *beat.Beat, cfg *common.Config) (beat.Beater, error) {
 		mode = beat.DropIfFull
 	default:
 		return nil, fmt.Errorf("error in configuration, unknown publish_mode: '%s'", bConfig.PublishMode)
+	}
+
+	if bConfig.ChannelWorkers < 1 {
+		bConfig.ChannelWorkers = 1
 	}
 
 	// return beat
@@ -115,6 +118,12 @@ func (bt *Kafkabeat) Run(b *beat.Beat) error {
 		return err
 	}
 
+	// run workers
+	bt.logger.Info("spawning channel workers: ", bt.bConfig.ChannelWorkers)
+	for i := 0; i < bt.bConfig.ChannelWorkers; i++ {
+		go bt.workerFn()
+	}
+
 	// run loop
 	bt.logger.Info("kafkabeat is running! Hit CTRL-C to stop it.")
 	for {
@@ -124,18 +133,22 @@ func (bt *Kafkabeat) Run(b *beat.Beat) error {
 			return nil
 
 		case err := <-bt.consumer.Errors():
-			bt.logger.Errorf("error: %#v", err)
-
-		case notify := <-bt.consumer.Notifications():
-			bt.logger.Debugf("received notification: %#v", notify)
-
-		case msg := <-bt.consumer.Messages():
-			bt.logger.Debugf("received message: %#v", msg)
-			if event := bt.codec(msg); event != nil {
-				bt.pipeline.Publish(*event)
-			}
-			bt.consumer.MarkOffset(msg, "")
+			bt.logger.Error(err.Error())
 		}
+	}
+}
+
+func (bt *Kafkabeat) workerFn() {
+	for {
+		msg := <-bt.consumer.Messages()
+		if msg == nil {
+			break
+		}
+
+		if event := bt.codec(msg); event != nil {
+			bt.pipeline.Publish(*event)
+		}
+		bt.consumer.MarkOffset(msg, "")
 	}
 }
 

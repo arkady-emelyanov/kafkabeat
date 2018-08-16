@@ -1,14 +1,12 @@
-################### Kafkabeat Configuration Example #########################
-
-############################# Kafkabeat ######################################
 kafkabeat:
   brokers: ["localhost:9092"]
   topics: ["watch"]
   client_id: "beat"
   group: "kafkabeat"
   offset: "newest"
-  codec: "json"
+  codec: "plain"
   channel_buffer_size: 1024
+  channel_workers: 2
 
 output.elasticsearch:
   enabled: true

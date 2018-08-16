@@ -37,6 +37,11 @@ kafkabeat:
   # for detailed explanation
   #channel_buffer_size: 256
 
+  # Number of concurrent publish workers.
+  # General suggestion keep number of workers equal or lower than CPU cores available.
+  # Defaults to number of available cores
+  #channel_workers: 1
+
 #================================ General ======================================
 
 # The name of the shipper that publishes the network data. It can be used to group

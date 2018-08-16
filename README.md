@@ -68,6 +68,11 @@ kafkabeat:
   # @see https://github.com/Shopify/sarama/blob/v1.17.0/config.go#L262
   # for detailed explanation
   #channel_buffer_size: 256
+  
+  # Number of concurrent publish workers.
+  # General suggestion keep number of workers equal or lower than CPU cores available.
+  # Defaults to number of available cores
+  #channel_workers: 8
 ```
 
 ### Timestamp
