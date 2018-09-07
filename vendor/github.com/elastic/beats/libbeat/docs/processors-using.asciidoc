@@ -169,6 +169,7 @@ The supported processors are:
  * <<add-kubernetes-metadata,`add_kubernetes_metadata`>>
  * <<add-docker-metadata,`add_docker_metadata`>>
  * <<add-host-metadata,`add_host_metadata`>>
+ * <<dissect, `dissect`>>
 
 [[conditions]]
 ==== Conditions
@@ -403,6 +404,7 @@ The following cloud providers are supported:
 - https://www.qcloud.com/?lang=en[Tencent Cloud] (QCloud)
 - Alibaba Cloud (ECS)
 - Azure Virtual Machine
+- Openstack Nova
 
 The simple configuration below enables the processor.
 
@@ -520,6 +522,23 @@ _Azure Virtual Machine_
       "instance_name": "test-az-vm",
       "machine_type": "Standard_D3_v2",
       "region": "eastus2"
+    }
+  }
+}
+-------------------------------------------------------------------------------
+
+_Openstack Nova_
+
+[source,json]
+-------------------------------------------------------------------------------
+{
+  "meta": {
+    "cloud": {
+      "provider": "openstack",
+      "instance_name": "test-998d932195.mycloud.tld",
+      "availability_zone": "xxxx-az-c",
+      "instance_id": "i-00011a84",
+      "machine_type": "m2.large"
     }
   }
 }
@@ -700,8 +719,6 @@ section.
 [[add-kubernetes-metadata]]
 === Add Kubernetes metadata
 
-beta[]
-
 The `add_kubernetes_metadata` processor annotates each event with relevant
 metadata based on which Kubernetes pod the event originated from. Each event is
 annotated with:
@@ -719,7 +736,7 @@ Indexers take in a pod's metadata and builds indices based on the pod metadata.
 For example, the `ip_port` indexer can take a Kubernetes pod and index the pod
 metadata based on all `pod_ip:container_port` combinations.
 
-Matchers are used to contruct lookup keys for querying indices. For example,
+Matchers are used to construct lookup keys for querying indices. For example,
 when the `fields` matcher takes `["metricset.host"]` as a lookup field, it would
 construct a lookup key with the value of the field `metricset.host`.
 
@@ -785,8 +802,6 @@ case you want to specify your own.
 [[add-docker-metadata]]
 === Add Docker metadata
 
-beta[]
-
 The `add_docker_metadata` processor annotates each event with relevant metadata
 from Docker containers:
 
@@ -849,6 +864,17 @@ forget metadata for a container, 60s by default.
 
 beta[]
 
+[source,yaml]
+-------------------------------------------------------------------------------
+processors:
+- add_host_metadata:
+    netinfo.enabled: false
+-------------------------------------------------------------------------------
+
+It has the following settings:
+
+`netinfo.enabled`:: (Optional) Default false. Include IP addresses and MAC addresses as fields host.ip and host.mac
+
 The `add_host_metadata` processor annotates each event with relevant metadata from the host machine.
 The fields added to the event are looking as following:
 
@@ -872,3 +898,34 @@ The fields added to the event are looking as following:
 -------------------------------------------------------------------------------
 
 NOTE: The host information is refreshed every 5 minutes.
+
+[[dissect]]
+=== Dissect strings
+
+The dissect processor tokenizes incoming strings using defined patterns.
+
+[source,yaml]
+-------
+processors:
+- dissect:
+    tokenizer: "%{key1} %{key2}"
+    field: "message"
+    target_prefix: "dissect"
+-------
+
+The `dissect` processor has the following configuration settings:
+
+`field`:: (Optional) The event field to tokenize. Default is `message`.
+
+`target_prefix`:: (Optional) The name of the field where the values will be extracted. When an empty
+string is defined, the processor will create the keys at the root of the event. Default is
+`dissect`. When the target key already exists in the event, the processor won't replace it and log
+an error; you need to either drop or rename the key before using dissect.
+
+For tokenization to be successful, all keys must be found and extracted, if one of them cannot be
+found an error will be logged and no modification is done on the original event.
+
+NOTE: A key can contain any characters except reserved suffix or prefix modifiers:  `/`,`&`, `+`
+and `?`.
+
+See <<conditions>> for a list of supported conditions.
