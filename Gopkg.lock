@@ -10,12 +10,12 @@
   version = "v0.4.8"
 
 [[projects]]
-  digest = "1:14af5ba5ac88efec490fb59734df34e1bd973198caefa7b0cceed0900ef6164c"
+  digest = "1:0aa7e06b81acfb81926ea600988189f8e6416e4a2e63283393e09b04c3030205"
   name = "github.com/Shopify/sarama"
   packages = ["."]
   pruneopts = ""
-  revision = "35324cf48e33d8260e1c7c18854465a904ade249"
-  version = "v1.17.0"
+  revision = "a6144ae922fd99dd0ea5046c8137acfb7fab0914"
+  version = "v1.18.0"
 
 [[projects]]
   digest = "1:f2cc92b78b2f3b76ab0f9daddddd28627bcfcc6cacf119029aa3850082d95079"
@@ -34,12 +34,12 @@
   version = "1.0.0"
 
 [[projects]]
-  digest = "1:0edb96edcfeee9aeba92e605536fbb1542b0bf6a10cea9d0b5a2227d5a703eae"
+  digest = "1:f31623a94725a659c0d1b6447c7c0db82b5d37c867522a6119d6bb98a1407eb6"
   name = "github.com/bsm/sarama-cluster"
   packages = ["."]
   pruneopts = ""
-  revision = "cf455bc755fe41ac9bb2861e7a961833d9c2ecc3"
-  version = "v2.1.13"
+  revision = "c618e605e15c0d7535f6c96ff8efbb0dba4fd66c"
+  version = "v2.1.15"
 
 [[projects]]
   digest = "1:0a39ec8bf5629610a4bc7873a92039ee509246da3cef1a0ea60f1ed7e5f9cea5"
@@ -150,14 +150,16 @@
   version = "v1.1.0"
 
 [[projects]]
-  digest = "1:d3bc81d356f79521c7e638238fae6c20c4fe8e98b221385aacf64576767dcdc3"
+  digest = "1:f9f798fe14309024b8feea96d6701b9c4d106723ac7e716857985f6140ecc445"
   name = "github.com/elastic/beats"
   packages = [
     "libbeat/api",
+    "libbeat/asset",
     "libbeat/autodiscover",
     "libbeat/autodiscover/builder",
     "libbeat/autodiscover/meta",
     "libbeat/autodiscover/providers/docker",
+    "libbeat/autodiscover/providers/jolokia",
     "libbeat/autodiscover/providers/kubernetes",
     "libbeat/autodiscover/template",
     "libbeat/beat",
@@ -183,13 +185,19 @@
     "libbeat/common/safemapstr",
     "libbeat/common/schema",
     "libbeat/common/schema/mapstriface",
+    "libbeat/common/seccomp",
     "libbeat/common/streambuf",
     "libbeat/common/terminal",
+    "libbeat/common/transport/tlscommon",
+    "libbeat/conditions",
     "libbeat/dashboards",
+    "libbeat/feature",
     "libbeat/keystore",
+    "libbeat/kibana",
     "libbeat/logp",
     "libbeat/logp/configure",
     "libbeat/metric/system/cpu",
+    "libbeat/metric/system/host",
     "libbeat/metric/system/memory",
     "libbeat/metric/system/process",
     "libbeat/monitoring",
@@ -218,6 +226,7 @@
     "libbeat/processors/add_host_metadata",
     "libbeat/processors/add_kubernetes_metadata",
     "libbeat/processors/add_locale",
+    "libbeat/processors/dissect",
     "libbeat/publisher",
     "libbeat/publisher/includes",
     "libbeat/publisher/pipeline",
@@ -225,14 +234,13 @@
     "libbeat/publisher/queue/memqueue",
     "libbeat/publisher/queue/spool",
     "libbeat/service",
-    "libbeat/setup/kibana",
     "libbeat/template",
     "libbeat/testing",
     "libbeat/version",
   ]
   pruneopts = ""
-  revision = "45a9a9e1561b6c540e94211ebe03d18abcacae55"
-  version = "v6.3.2"
+  revision = "34b4e2cc75fbbee5e7149f3916de72fb8892d070"
+  version = "v6.4.0"
 
 [[projects]]
   digest = "1:45f1e87c37441dab8d04c73274bece3818502f068a09524842c47332a5f31d68"
@@ -244,6 +252,17 @@
   pruneopts = ""
   revision = "616041e345fc33c97bc0eb0fa6b388aa07bca3e1"
   version = "v0.1.0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:32a2d163d8ecff4aa31aae96fb7d82247093fc645100ddc0c370b77b018093e4"
+  name = "github.com/elastic/go-seccomp-bpf"
+  packages = [
+    ".",
+    "arch",
+  ]
+  pruneopts = ""
+  revision = "5bed103a93993f24c58dd267faaab582f2373e31"
 
 [[projects]]
   digest = "1:84ac5effa017fe93aa373eba2500abbd20b5132b81b27e657f77cec9ee9a8036"
@@ -335,8 +354,11 @@
   packages = [
     ".",
     "apis/apiextensions/v1beta1",
+    "apis/apps/v1beta1",
     "apis/core/v1",
+    "apis/extensions/v1beta1",
     "apis/meta/v1",
+    "apis/policy/v1beta1",
     "apis/resource",
     "runtime",
     "runtime/schema",
@@ -587,6 +609,7 @@
   digest = "1:50a6b805181a9b3bf2c879fcad6e6ff4cc643fc2287c321c1fbfc751755ea7eb"
   name = "golang.org/x/net"
   packages = [
+    "bpf",
     "context",
     "context/ctxhttp",
     "http/httpguts",

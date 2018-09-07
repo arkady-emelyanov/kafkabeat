@@ -5,6 +5,11 @@
 Kafkabeat is an [Elastic Beat](https://www.elastic.co/products/beats) that read events from Kafka topics and 
 forward them to any [supported output](https://www.elastic.co/guide/en/beats/filebeat/6.3/configuring-output.html).
 
+* Beats: v6.4.0
+* Sarama: 1.18.0 (Kafka 2.0.0 supported) 
+
+## How it works?
+
 Kafkabeat is supporting two event processing modes via so-called codecs: `plain` and `json`.
 
 Plain codec is a dumb codec, kafka message value is converted into string and forwarded. For example,
