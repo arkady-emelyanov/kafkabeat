@@ -85,8 +85,8 @@ kafkabeat:
 For plain codec, timestamp field will be set either as provided by Kafka message (requires Kafka 0.10+),
 or as current time.
 
-For json codec, before fallback to Kafka message timestamp, top-level field "@timestamp" 
-with expected layout `"2006-01-02T15:04:05.000Z"` will be analyzed.
+For json codec, before fallback to Kafka message timestamp, top-level field defined on configuration parameter `timestamp_key` (defaults to `"@timestamp"`)
+with layout defined on configuration parameter `timestamp_layout` (defaults to `"2006-01-02T15:04:05.000Z"`) will be analyzed.
 
 ### Examples
 

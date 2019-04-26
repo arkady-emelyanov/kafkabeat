@@ -1,21 +1,18 @@
 package beater
 
 import (
-	"encoding/json"
 	"fmt"
 	"time"
 
 	"github.com/arkady-emelyanov/kafkabeat/config"
 
 	"github.com/Shopify/sarama"
-	"github.com/bsm/sarama-cluster"
+	cluster "github.com/bsm/sarama-cluster"
 
 	"github.com/elastic/beats/libbeat/beat"
 	"github.com/elastic/beats/libbeat/common"
 	"github.com/elastic/beats/libbeat/logp"
 )
-
-type msgDecodeFn func(msg *sarama.ConsumerMessage) *beat.Event
 
 type Kafkabeat struct {
 	done   chan struct{}
@@ -28,7 +25,7 @@ type Kafkabeat struct {
 	pipeline beat.Client
 	consumer *cluster.Consumer
 
-	codec msgDecodeFn
+	codec decoder
 }
 
 // Creates beater
@@ -55,12 +52,12 @@ func New(b *beat.Beat, cfg *common.Config) (beat.Beater, error) {
 	}
 
 	// codec to use
-	var codecFn msgDecodeFn
+	var codec decoder
 	switch bConfig.Codec {
 	case "json":
-		codecFn = decodeJson
+		codec = newJSONDecoder(bConfig.TimestampKey, bConfig.TimestampLayout)
 	case "plain":
-		codecFn = decodePlain
+		codec = newPlainDecoder()
 	default:
 		return nil, fmt.Errorf("error in configuration, unknown codec: '%s'", bConfig.Codec)
 	}
@@ -89,7 +86,7 @@ func New(b *beat.Beat, cfg *common.Config) (beat.Beater, error) {
 		mode:    mode,
 		bConfig: bConfig,
 		kConfig: kConfig,
-		codec:   codecFn,
+		codec:   codec,
 	}
 	return bt, nil
 }
@@ -145,7 +142,7 @@ func (bt *Kafkabeat) workerFn() {
 			break
 		}
 
-		if event := bt.codec(msg); event != nil {
+		if event := bt.codec.Decode(msg); event != nil {
 			bt.pipeline.Publish(*event)
 		}
 		bt.consumer.MarkOffset(msg, "")
@@ -155,52 +152,4 @@ func (bt *Kafkabeat) workerFn() {
 func (bt *Kafkabeat) Stop() {
 	bt.pipeline.Close()
 	close(bt.done)
-}
-
-func decodeJson(msg *sarama.ConsumerMessage) *beat.Event {
-	fields := map[string]interface{}{}
-	if err := json.Unmarshal(msg.Value, &fields); err != nil {
-		return nil
-	}
-
-	// special @timestamp field handling
-	var ts time.Time
-	if val, exists := fields["@timestamp"]; exists {
-		delete(fields, "@timestamp") // drop timestamp key
-
-		if s, ok := val.(string); ok {
-			if p, err := common.ParseTime(s); err == nil {
-				ts = time.Time(p)
-			}
-		}
-	}
-
-	if ts.IsZero() {
-		if msg.Timestamp.IsZero() {
-			ts = time.Now()
-		} else {
-			ts = msg.Timestamp
-		}
-	}
-
-	return &beat.Event{
-		Timestamp: ts,
-		Fields:    fields,
-	}
-}
-
-func decodePlain(msg *sarama.ConsumerMessage) *beat.Event {
-	fields := map[string]interface{}{
-		"message": string(msg.Value),
-	}
-
-	ts := msg.Timestamp
-	if ts.IsZero() {
-		ts = time.Now()
-	}
-
-	return &beat.Event{
-		Timestamp: ts,
-		Fields:    fields,
-	}
 }
