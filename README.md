@@ -62,6 +62,12 @@ kafkabeat:
   # Defaults to "json".
   codec: "json"
 
+  # Timestamp key used by JSON decoder
+  #timestamp_key: "@timestamp"
+
+  # Timestamp layout used by JSON decoder
+  #timestamp_layout: "2006-01-02T15:04:05.000Z"
+
   # Event publish mode: "default", "send" or "drop_if_full".
   # Defaults to "default"
   # @see https://github.com/elastic/beats/blob/v6.3.1/libbeat/beat/pipeline.go#L119
