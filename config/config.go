@@ -3,7 +3,11 @@
 
 package config
 
-import "runtime"
+import (
+	"runtime"
+
+	"github.com/elastic/beats/libbeat/common"
+)
 
 type Config struct {
 	Brokers           []string `config:"brokers"`
@@ -15,6 +19,8 @@ type Config struct {
 	PublishMode       string   `config:"publish_mode"`
 	ChannelBufferSize int      `config:"channel_buffer_size"`
 	ChannelWorkers    int      `config:"channel_workers"`
+	TimestampKey      string   `config:"timestamp_key"`
+	TimestampLayout   string   `config:"timestamp_layout"`
 }
 
 var DefaultConfig = Config{
@@ -27,4 +33,6 @@ var DefaultConfig = Config{
 	PublishMode:       "default",
 	ChannelBufferSize: 256,
 	ChannelWorkers:    runtime.NumCPU(),
+	TimestampKey:      "@timestamp",
+	TimestampLayout:   common.TsLayout,
 }

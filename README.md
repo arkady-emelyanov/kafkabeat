@@ -62,6 +62,12 @@ kafkabeat:
   # Defaults to "json".
   codec: "json"
 
+  # Timestamp key used by JSON decoder
+  #timestamp_key: "@timestamp"
+
+  # Timestamp layout used by JSON decoder
+  #timestamp_layout: "2006-01-02T15:04:05.000Z"
+
   # Event publish mode: "default", "send" or "drop_if_full".
   # Defaults to "default"
   # @see https://github.com/elastic/beats/blob/v6.3.1/libbeat/beat/pipeline.go#L119
@@ -85,8 +91,8 @@ kafkabeat:
 For plain codec, timestamp field will be set either as provided by Kafka message (requires Kafka 0.10+),
 or as current time.
 
-For json codec, before fallback to Kafka message timestamp, top-level field "@timestamp" 
-with expected layout `"2006-01-02T15:04:05.000Z"` will be analyzed.
+For json codec, before fallback to Kafka message timestamp, top-level field defined on configuration parameter `timestamp_key` (defaults to `"@timestamp"`)
+with layout defined on configuration parameter `timestamp_layout` (defaults to `"2006-01-02T15:04:05.000Z"`) will be analyzed.
 
 ### Examples
 
